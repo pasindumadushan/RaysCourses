@@ -1,0 +1,217 @@
+﻿@model RaysCoursesWebAPI.Models.User
+
+@{
+    ViewData["Title"] = "RegisterView";
+}
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="~/Bootstrap Design/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="~/Bootstrap Design/css/sb-admin-2.min.css" rel="stylesheet">
+    <title>Register!</title>
+
+</head>
+
+<body class="bg-gradient-primary">
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                            </div>
+                            <form Id="UserForm" novalidate>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="Uname" name="Uname"
+                                           placeholder="User Name">
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" class="form-control form-control-user" id="Umail" name="Umail"
+                                           placeholder="Email Address">
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="password" class="form-control form-control-user"
+                                               id="Upassword" name="Upassword" placeholder="Password">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="password" class="form-control form-control-user"
+                                               id="UserRepeatPassword" name="UserRepeatPassword" placeholder="Repeat Password">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user"
+                                               id="UserAge" name="UserAge" placeholder="Age">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control form-control-user"
+                                               id="UphoneNo" name="UphoneNo" placeholder="Phone Number">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="Uaddress" name="Uaddress" placeholder="Address">
+
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="submit" value="Register" class="btn btn-primary btn-user btn-block" />
+                                </div>
+                            </form>
+                            <hr>
+                            <div class="text-center">
+                                <a class="small" href="forgot-password.html">Forgot Password?</a>
+                            </div>
+                            <div class="text-center">
+                                <a class="small" href="login.html">Already have an account? Login!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+<script src="~/Bootstrap Design/vendor/jquery/jquery.min.js"></script>
+<script src="~/Bootstrap Design/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/Bootstrap Design/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="~/Bootstrap Design/js/sb-admin-2.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script>
+    $(document).ready(function () {
+        
+        validateRegister();
+
+    });
+
+    function validateRegister() {
+        $(function () {
+            jQuery.validator.addMethod("noSpace", function (value, element) {
+                return value.indexOf(" ") < 0 && value != "";
+            }, "No space please and don't leave it empty");
+
+            jQuery.validator.addMethod("exactlength", function (value, element, param) {
+                return this.optional(element) || value.length == param;
+            }, $.validator.format("Please enter exactly {0} characters."));
+            $("#UserForm").validate({
+                
+                errorPlacement: function (error, element) {
+                    var placement = $(element).data('error');
+                    if (placement) {
+                        $(placement).append(error)
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+                rules: {
+                    Uname: {
+                        required: true,
+                        noSpace: true
+                    },
+                    Umail: {
+                        required: true,
+                        noSpace: true
+                    },
+                    Upassword: {
+                        required: true,
+                        noSpace: true
+                    },
+                    UserRepeatPassword: {
+                        required: true,
+                        noSpace: true
+                    },
+                    UserAge: {
+                        required: true,
+                        noSpace: true,
+                        number: true
+                    },
+                    Uaddress: {
+                        required: true,
+                        noSpace: true
+                    },
+                    UphoneNo: {
+                        required: true,
+                        noSpace: true,
+                        number: true
+                    }
+                },
+                messages: {
+                    Uname: {
+                        required: "Please fill this field!",
+                        noSpace: "Space not allowed"
+                    },
+                    Umail: {
+                        required: "Please fill this field!",
+                        noSpace: "Space not allowed"
+                    },
+                    Upassword: {
+                        required: "Please fill this field!",
+                        noSpace: "Space not allowed"
+                    },
+                    UserRepeatPassword: {
+                        required: "Please fill this field!",
+                        noSpace: "Space not allowed"
+                    },
+                    UserAge: {
+                        required: "Please fill this field!",
+                        noSpace: "Space not allowed",
+                        number: "Invalid input"
+                    },
+                    Uaddress: {
+                        required: "Please fill this field!",
+                        noSpace: "Space not allowed"
+                    },
+                    UphoneNo: {
+                        required: "Please fill this field!",
+                        noSpace: "Space not allowed",
+                        number: "Invalid input"
+                    }
+                },
+                submitHandler: function (form) {
+                    Register();
+                }
+
+            });
+        });
+    }
+
+    function Register() {
+        
+        var viewModel = serializeFormJson($('#UserForm').serializeArray())
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Register", "User")',
+            dataType: 'json',
+            ContentType: 'application/json; charset=utf-8',
+            data:{
+                viewModel: viewModel
+            },
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    function serializeFormJson(formArray) {
+        var returnArray = {};
+        for (var i = 0; i < formArray.length; i++) {
+            returnArray[formArray[i]['name']] = formArray[i]['value'];
+        }
+        return returnArray;
+    }
+</script>

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaysCoursesWebAPI", "RaysCoursesWebAPI\RaysCoursesWebAPI.csproj", "{C06B3C70-C848-46BC-B4D7-2019573CFE9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaysCoursesApplication", "RaysCoursesApplication\RaysCoursesApplication.csproj", "{61A8DB93-E6C1-4060-9235-E9BD8232E8ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C06B3C70-C848-46BC-B4D7-2019573CFE9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C06B3C70-C848-46BC-B4D7-2019573CFE9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C06B3C70-C848-46BC-B4D7-2019573CFE9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C06B3C70-C848-46BC-B4D7-2019573CFE9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61A8DB93-E6C1-4060-9235-E9BD8232E8ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61A8DB93-E6C1-4060-9235-E9BD8232E8ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61A8DB93-E6C1-4060-9235-E9BD8232E8ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61A8DB93-E6C1-4060-9235-E9BD8232E8ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E9B4CA91-2D5B-4034-B14E-301588059E39}
+	EndGlobalSection
+EndGlobal
