@@ -1,8 +1,8 @@
-﻿@model RaysCoursesWebAPI.Models.User
-
+﻿
 @{
-    ViewData["Title"] = "RegisterView";
+    ViewData["Title"] = "LoginView";
 }
+
 <head>
 
     <meta charset="utf-8">
@@ -16,7 +16,7 @@
 
     <!-- Custom styles for this template-->
     <link href="~/Bootstrap Design/css/sb-admin-2.min.css" rel="stylesheet">
-    <title>Register!</title>
+    <title>Login!</title>
 
 </head>
 
@@ -31,45 +31,20 @@
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                                <h1 class="h4 text-gray-900 mb-4">SignIn to Account!</h1>
                             </div>
                             <form Id="UserForm" novalidate>
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="Uname" name="Uname"
-                                           placeholder="User Name">
-                                </div>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" id="Umail" name="Umail"
                                            placeholder="Email Address">
                                 </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user"
-                                               id="Upassword" name="Upassword" placeholder="Password">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user"
-                                               id="UserRepeatPassword" name="UserRepeatPassword" placeholder="Repeat Password">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user"
-                                               id="UserAge" name="UserAge" placeholder="Age">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user"
-                                               id="UphoneNo" name="UphoneNo" placeholder="Phone Number">
-                                    </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control form-control-user"
+                                           id="Upassword" name="Upassword" placeholder="Password">
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="Uaddress" name="Uaddress" placeholder="Address">
-
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="submit" value="Register" class="btn btn-primary btn-user btn-block" />
+                                    <input type="submit" value="Login" class="btn btn-primary btn-user btn-block" />
                                 </div>
                             </form>
                             <hr>
@@ -119,10 +94,6 @@
                     }
                 },
                 rules: {
-                    Uname: {
-                        required: true,
-                        noSpace: true
-                    },
                     Umail: {
                         required: true,
                         noSpace: true
@@ -130,31 +101,9 @@
                     Upassword: {
                         required: true,
                         noSpace: true
-                    },
-                    UserRepeatPassword: {
-                        required: true,
-                        noSpace: true
-                    },
-                    UserAge: {
-                        required: true,
-                        noSpace: true,
-                        number: true
-                    },
-                    Uaddress: {
-                        required: true,
-                        noSpace: true
-                    },
-                    UphoneNo: {
-                        required: true,
-                        noSpace: true,
-                        number: true
                     }
                 },
                 messages: {
-                    Uname: {
-                        required: "Please fill this field!",
-                        noSpace: "Space not allowed"
-                    },
                     Umail: {
                         required: "Please fill this field!",
                         noSpace: "Space not allowed"
@@ -162,57 +111,42 @@
                     Upassword: {
                         required: "Please fill this field!",
                         noSpace: "Space not allowed"
-                    },
-                    UserRepeatPassword: {
-                        required: "Please fill this field!",
-                        noSpace: "Space not allowed"
-                    },
-                    UserAge: {
-                        required: "Please fill this field!",
-                        noSpace: "Space not allowed",
-                        number: "Invalid input"
-                    },
-                    Uaddress: {
-                        required: "Please fill this field!",
-                        noSpace: "Space not allowed"
-                    },
-                    UphoneNo: {
-                        required: "Please fill this field!",
-                        noSpace: "Space not allowed",
-                        number: "Invalid input"
                     }
                 },
                 submitHandler: function (form) {
-                    Register();
+                    Login();
                 }
 
             });
         });
     }
 
-    function Register() {
-
+    function Login() {
         var viewModel = serializeFormJson($('#UserForm').serializeArray())
+
         $.ajax({
             type: "POST",
-            url: '@Url.Action("Register", "User")',
+            url: '@Url.Action("Login", "User")',
             dataType: 'json',
             ContentType: 'application/json; charset=utf-8',
-            data:{
+            data: {
                 viewModel: viewModel
             },
             success: function (data) {
-
-                if (data.success == true)
+                if (data.validate == 1)
                 {
-                    var url = '@Url.Action("LoginView","User")';
+                    alert("Login Success!");
+                    var url = '@Url.Action("Index","Home")';
                     window.location.href = url;
+                }
+                else if (data.validate == 2)
+                {
+                    alert("Wrong Password!");
                 }
                 else
                 {
-                    alert("Fail");
+                    alert("Invalid User name!");
                 }
-
             }
         });
     }

@@ -430,3 +430,4 @@ C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesApplication\bin\Debug\netco
 C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesApplication\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.Razor.Extensions.dll
 C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesApplication\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation.dll
 C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesApplication\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
+C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesApplication\obj\Debug\netcoreapp3.1\Razor\Views\User\LoginView.cshtml.g.cs

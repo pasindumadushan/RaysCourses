@@ -85,6 +85,14 @@ namespace RaysCoursesWebAPI.Controllers
             return CreatedAtAction("GetUser", new { id = user.Uid }, user);
         }
 
+        [HttpPost("Login")]
+        public async Task<User> Login(User user)
+        {
+            var Resultuser = _context.User.Where(x => x.Umail == user.Umail ).FirstOrDefault();
+
+            return Resultuser;
+        }
+
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<User>> DeleteUser(int id)
