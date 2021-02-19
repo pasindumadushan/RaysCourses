@@ -411,7 +411,6 @@ C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesWebAPI\bin\Debug\netcoreapp
 C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesWebAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesWebAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesWebAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesWebAPI\obj\Debug\netcoreapp3.1\RaysCoursesWebAPI.csprojAssemblyReference.cache
 C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesWebAPI\obj\Debug\netcoreapp3.1\RaysCoursesWebAPI.AssemblyInfoInputs.cache
 C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesWebAPI\obj\Debug\netcoreapp3.1\RaysCoursesWebAPI.AssemblyInfo.cs
 C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesWebAPI\obj\Debug\netcoreapp3.1\RaysCoursesWebAPI.csproj.CoreCompileInputs.cache
