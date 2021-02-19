@@ -18,7 +18,9 @@ namespace RaysCoursesApplication.Controllers
         private readonly ILogger<HomeController> _logger;
         HelperApi _api = new HelperApi();
         List<Course> courses;
+        List<CourseViewModel> courseViewModels;
         Course course;
+        University university;
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -34,14 +36,27 @@ namespace RaysCoursesApplication.Controllers
         public async Task<IActionResult> GetTableData()
         {
             courses = new List<Course>();
-            HttpClient client = _api.Initial();
-            HttpResponseMessage res = await client.GetAsync("api/Courses");
+            courseViewModels = new List<CourseViewModel>();
 
-            if (res.IsSuccessStatusCode)
+            HttpClient client = _api.Initial();
+            HttpResponseMessage res1 = await client.GetAsync("api/Courses");
+
+
+            if (res1.IsSuccessStatusCode)
             {
-                var result = res.Content.ReadAsStringAsync().Result;
-                courses = JsonConvert.DeserializeObject<List<Course>>(result);
-                return Json(new { data = courses });
+                var result1 = res1.Content.ReadAsStringAsync().Result;
+                courses = JsonConvert.DeserializeObject<List<Course>>(result1);
+                
+                foreach(var i in courses)
+                {
+                    HttpResponseMessage res2 = await client.GetAsync("api/Universities/" + i.UniRefId);
+                    var result2 = res2.Content.ReadAsStringAsync().Result;
+
+                    university = JsonConvert.DeserializeObject<University>(result2);
+
+                    courseViewModels.Add ( new CourseViewModel{ Cid = i.Cid, UniId = i.UniRefId, UniName = university.UniName, Cname = i.Cname, CdateOfIntake = i.CdateOfIntake, Cyears = i.Cyears, Cfee = i.Cfee, UniImgPath = university.UniImgPath });
+                }
+                return Json(new { data = courseViewModels });
             }
 
             return Json(new { data = false });
