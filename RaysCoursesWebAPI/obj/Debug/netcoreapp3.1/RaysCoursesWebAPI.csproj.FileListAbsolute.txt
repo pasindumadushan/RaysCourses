@@ -424,3 +424,4 @@ C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesWebAPI\obj\Debug\netcoreapp
 C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesWebAPI\obj\Debug\netcoreapp3.1\RaysCoursesWebAPI.dll
 C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesWebAPI\obj\Debug\netcoreapp3.1\RaysCoursesWebAPI.pdb
 C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesWebAPI\obj\Debug\netcoreapp3.1\RaysCoursesWebAPI.genruntimeconfig.cache
+C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesWebAPI\obj\Debug\netcoreapp3.1\RaysCoursesWebAPI.csprojAssemblyReference.cache
