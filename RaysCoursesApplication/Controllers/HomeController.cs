@@ -88,6 +88,10 @@ namespace RaysCoursesApplication.Controllers
             return Json(new { data = false });
         }
 
+        public IActionResult CreateView()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {

@@ -20,6 +20,7 @@ namespace RaysCoursesWebAPI.Models
         }
 
         public virtual DbSet<Course> Course { get; set; }
+        public virtual DbSet<CourseCategory> CourseCategory { get; set; }
         public virtual DbSet<University> University { get; set; }
         public virtual DbSet<User> User { get; set; }
 
@@ -69,6 +70,13 @@ namespace RaysCoursesWebAPI.Models
                     .HasForeignKey(d => d.UniRefId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Course__UniRefId__38996AB5");
+            });
+
+            modelBuilder.Entity<CourseCategory>(entity =>
+            {
+                entity.HasKey(e => e.CatId);
+
+                entity.Property(e => e.CatName).IsRequired();
             });
 
             modelBuilder.Entity<University>(entity =>
