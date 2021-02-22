@@ -11,6 +11,8 @@ namespace RaysCoursesApplication.Models
         public int UniId { get; set; }
         public string UniName { get; set; }
         public string Cname { get; set; }
+        public string Cfaculty { get; set; }
+        public string Ccategory { get; set; }
         public DateTime? CdateOfIntake { get; set; }
         public string Cyears { get; set; }
         public decimal? Cfee { get; set; }

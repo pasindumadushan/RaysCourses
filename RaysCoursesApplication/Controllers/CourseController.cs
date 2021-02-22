@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RaysCoursesApplication.Helper;
+using RaysCoursesApplication.Models;
 using RaysCoursesWebAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,18 @@ namespace RaysCoursesApplication.Controllers
                 return Json(new { data = dropdownResult });
             }
 
+            return Json(new { data = false });
+        }
+
+        public async Task<IActionResult> Create(CourseViewModel viewModel)
+        {
+            System.Diagnostics.Debug.WriteLine(viewModel.Cname);
+            System.Diagnostics.Debug.WriteLine(viewModel.Cfaculty);
+            System.Diagnostics.Debug.WriteLine(viewModel.CdateOfIntake);
+            System.Diagnostics.Debug.WriteLine(viewModel.Cyears);
+            System.Diagnostics.Debug.WriteLine(viewModel.Cfee);
+            System.Diagnostics.Debug.WriteLine(viewModel.Ccategory);
+            System.Diagnostics.Debug.WriteLine(viewModel.UniName);
             return Json(new { data = false });
         }
 

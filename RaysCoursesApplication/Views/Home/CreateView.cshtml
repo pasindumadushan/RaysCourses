@@ -383,23 +383,23 @@
                             <div class="col-lg-6">
 
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="CName" name="CName"
+                                    <input type="text" class="form-control form-control-user" id="Cname" name="Cname"
                                            placeholder="Course Name">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="CFaculty" name="CFaculty"
+                                    <input type="text" class="form-control form-control-user" id="Cfaculty" name="Cfaculty"
                                            placeholder="Faculty">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="CDateOfIntake" name="CDateOfIntake"
-                                           placeholder="Date Of Intake">
+                                    <input type="text" class="form-control form-control-user" id="CdateOfIntake" name="CdateOfIntake"
+                                           placeholder="Date Of Intake (DD/MM/YYYY)">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="CYears" name="CYears"
+                                    <input type="text" class="form-control form-control-user" id="Cyears" name="Cyears"
                                            placeholder="Number of Years">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="CFee" name="CFee"
+                                    <input type="text" class="form-control form-control-user" id="Cfee" name="Cfee"
                                            placeholder="Fee">
                                 </div>
                             </div>
@@ -409,7 +409,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <select class="form-control form-control-user" id="CCategory" name="CCategory" placeholder="Selec Category...">
+                                    <select class="form-control form-control-user" id="Ccategory" name="Ccategory" placeholder="Selec Category...">
                                     </select>
                                 </div>
 
@@ -420,7 +420,7 @@
                             <input type="submit" value="Add Course" class="btn btn-primary btn-user btn-block" />
                         </div>
                     </form>
-                    
+
                 </div>
                 <!-- End of Main Content -->
                 <!-- Footer -->
@@ -472,6 +472,7 @@
 <script src="~/Bootstrap Design/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/Bootstrap Design/vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src="~/Bootstrap Design/js/sb-admin-2.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 <script src="~/Bootstrap Design/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="~/Bootstrap Design/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="~/Bootstrap Design/js/demo/datatables-demo.js"></script>
@@ -480,7 +481,89 @@
     {
         getCourseCategories();
         getUniversityNamesCategories();
+        validateCreate();
     });
+
+    function validateCreate() {
+        $(function () {
+            jQuery.validator.addMethod("noSpace", function (value, element) {
+                return value.indexOf(" ") < 0 && value != "";
+            }, "No space please and don't leave it empty");
+
+            jQuery.validator.addMethod("checkDate", function (value, element, param) {
+                return checkDate(value);
+            }, $.validator.format("Please enter exactly {0} characters."));
+
+            jQuery.validator.addMethod("exactlength", function (value, element, param) {
+                return this.optional(element) || value.length == param;
+            }, $.validator.format("Please enter exactly {0} characters."));
+            $("#CourseForm").validate({
+
+                errorPlacement: function (error, element) {
+                    var placement = $(element).data('error');
+                    if (placement) {
+                        $(placement).append(error)
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+                rules: {
+                    Cname: {
+                        required: true
+                    },
+                    Cfaculty: {
+                        required: true
+                    },
+                    CdateOfIntake: {
+                        required: true,
+                        checkDate: true
+                    },
+                    Cyears: {
+                        required: true
+                    },
+                    UniName: {
+                        required: true
+                    },
+                    Cfee: {
+                        required: true,
+                        number:true
+                    },
+                    Ccategory: {
+                        required: true
+                    }
+                },
+                messages: {
+                    Cname: {
+                        required: "Please fill this field!"
+                    },
+                    Cfaculty: {
+                        required: "Please fill this field!"
+                    },
+                    CdateOfIntake: {
+                        required: "Please fill this field!",
+                        checkDate: "Invalid date!"
+                    },
+                    Cyears: {
+                        required: "Please fill this field!"
+                    },
+                    UniName: {
+                        required: "Please fill this field!"
+                    },
+                    Cfee: {
+                        required: "Please fill this field!",
+                        number: "Invalid fee!"
+                    },
+                    Ccategory: {
+                        required: "Please fill this field!",
+                    }
+                },
+                submitHandler: function (form) {
+                    Create();
+                }
+
+            });
+        });
+    }
 
     function getCourseCategories() {
 
@@ -493,13 +576,13 @@
                 var userData = data;
                 var newData = userData.data;
 
-                $('#CCategory').empty();
-                $('#CCategory').append('<option selected="true" disabled>Choose course category...</option>');
-                $('#CCategory').prop('selectedIndex', 0);
+                $('#Ccategory').empty();
+                $('#Ccategory').append('<option selected="true" disabled>Choose course category...</option>');
+                $('#Ccategory').prop('selectedIndex', 0);
                 for (i = 0; i < newData.length; i++) {
-                    $('#CCategory').append($('<option></option>').attr('value', newData[i]).text(newData[i]));
+                    $('#Ccategory').append($('<option></option>').attr('value', newData[i]).text(newData[i]));
                 }
-                $('#CCategory').append($('<option></option>').attr('value', "All").text("Other Courses..."));
+                $('#Ccategory').append($('<option></option>').attr('value', "All").text("Other Courses..."));
             },
 
             failure: function (data) {
@@ -542,6 +625,48 @@
             }
 
         });
+    }
+
+    function Create() {
+
+        var viewModel = serializeFormJson($('#CourseForm').serializeArray())
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Create", "Course")',
+            dataType: 'json',
+            ContentType: 'application/json; charset=utf-8',
+            data:{
+                viewModel: viewModel
+            },
+            success: function (data) {
+
+                if (data.success == true)
+                {
+                    var url = '@Url.Action("Index","Home")';
+                    window.location.href = url;
+                }
+                else
+                {
+                    alert("Fail");
+                }
+
+            }
+        });
+    }
+
+    function serializeFormJson(formArray) {
+        var returnArray = {};
+        for (var i = 0; i < formArray.length; i++) {
+            returnArray[formArray[i]['name']] = formArray[i]['value'];
+        }
+        return returnArray;
+    }
+
+    
+    function checkDate(s) {
+        var bits = s.split('/');
+        var d = new Date(bits[2] + '/' + bits[1] + '/' + bits[0]);
+        return !!(d && (d.getMonth() + 1) == bits[1] && d.getDate() == Number(bits[0]));
     }
 </script>
 
