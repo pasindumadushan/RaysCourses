@@ -85,6 +85,14 @@ namespace RaysCoursesWebAPI.Controllers
             return CreatedAtAction("GetUniversity", new { id = university.UniId }, university);
         }
 
+        [HttpGet("University/{uniName}")]
+        public async Task<University> University(string uniName)
+        {
+            var Resultuniversity = _context.University.Where(x => x.UniName == uniName).FirstOrDefault();
+
+            return Resultuniversity;
+        }
+
         // DELETE: api/Universities/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<University>> DeleteUniversity(int id)
