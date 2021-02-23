@@ -78,6 +78,48 @@ namespace RaysCoursesApplication.Controllers
             return Json(new { data = false });
         }
 
+        public async Task<IActionResult> Edit(CourseViewModel viewModel)
+        {
+            university = new University();
+            course = new Course();
+            HttpClient client = _api.Initial();
+
+            HttpResponseMessage res = await client.GetAsync("api/Universities/University/" + viewModel.UniName);
+
+            if (res.IsSuccessStatusCode)
+            {
+                var result = res.Content.ReadAsStringAsync().Result;
+                university = JsonConvert.DeserializeObject<University>(result);
+
+                course.Cid = viewModel.Cid;
+                course.UniRefId = university.UniId;
+                course.Cname = viewModel.Cname;
+                course.Cfaculty = viewModel.Cfaculty;
+                course.Ccategory = viewModel.Ccategory;
+                course.CdateOfIntake = viewModel.CdateOfIntake;
+                course.Cyears = viewModel.Cyears;
+                course.Cfee = viewModel.Cfee;
+
+                StringContent content = new StringContent(JsonConvert.SerializeObject(course), Encoding.UTF8, "application/json");
+                res = await client.PutAsync("api/Courses/" +viewModel.Cid +"/", content);
+
+                if (res.IsSuccessStatusCode)
+                {
+                    result = res.Content.ReadAsStringAsync().Result;
+
+                    return Json(new { success = true });
+                }
+                else
+                {
+                    return Json(new { success = false });
+                }
+            }
+            else
+            {
+                return Json(new { data = false });
+            }
+        }
+
         public async Task<IActionResult> GetCategoriesDropdown()
         {
             courseCategories = new List<CourseCategory>();
@@ -164,6 +206,8 @@ namespace RaysCoursesApplication.Controllers
                 return Json(new { data = false });
             }
         }
+
+        
 
     }
 

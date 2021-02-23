@@ -608,7 +608,7 @@
                 var newData = userData.data;
 
                 $('#UniName').empty();
-                $('#UniName').append('<option selected="true" disabled>Choose course category...</option>');
+                $('#UniName').append('<option selected="true" disabled>Choose University/Institute...</option>');
                 $('#UniName').prop('selectedIndex', 0);
                 for (i = 0; i < newData.length; i++) {
                     $('#UniName').append($('<option></option>').attr('value', newData[i]).text(newData[i]));

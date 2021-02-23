@@ -374,13 +374,15 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Featured Courses</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Edit Course</h1>
                     <p class="mb-4">
-                        List of courses related to several fields alone with university details.
+                        Edit Course related to several fields alone with university details.
                     </p>
                     <form Id="CourseForm" novalidate>
                         <div class="row">
                             <div class="col-lg-6">
+
+                                <input type="hidden" class="form-control form-control-user" id="Cid" name="Cid">
 
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="Cname" name="Cname"
@@ -417,7 +419,7 @@
 
                         </div>
                         <div class="form-group">
-                            <input type="submit" value="Add Course" class="btn btn-primary btn-user btn-block" />
+                            <input type="submit" value="Update Course" class="btn btn-primary btn-user btn-block" />
                         </div>
                     </form>
 
@@ -480,9 +482,12 @@
     $(document).ready(function ()
     {
         getEditData();
+        getCourseCategories();
+        getUniversityNamesCategories();
+        validateEdit();
     });
 
-    function validateCreate() {
+    function validateEdit() {
         $(function () {
             jQuery.validator.addMethod("noSpace", function (value, element) {
                 return value.indexOf(" ") < 0 && value != "";
@@ -556,7 +561,7 @@
                     }
                 },
                 submitHandler: function (form) {
-                    Create();
+                    Update();
                 }
 
             });
@@ -594,27 +599,23 @@
         });
     }
 
-    function getEditData() {
+    function getUniversityNamesCategories() {
 
         $.ajax({
             type: "GET",
-            url: '@Url.Action("GetEditdata", "Course")',
+            url: '@Url.Action("GetUniversityDropdown", "Course")',
             dataType: "json",
-            data: {
-                cid: @ViewBag.ViewBagcid
-            },
             success: function (data) {
-                console.log(data);
-                //var userData = data;
-                //var newData = userData.data;
+                var userData = data;
+                var newData = userData.data;
 
-                //$('#UniName').empty();
-                //$('#UniName').append('<option selected="true" disabled>Choose course category...</option>');
-                //$('#UniName').prop('selectedIndex', 0);
-                //for (i = 0; i < newData.length; i++) {
-                //    $('#UniName').append($('<option></option>').attr('value', newData[i]).text(newData[i]));
-                //}
-                //$('#UniName').append($('<option></option>').attr('value', "All").text("Other Courses..."));
+                $('#UniName').empty();
+                $('#UniName').append('<option selected="true" disabled>Choose University/Institute...</option>');
+                $('#UniName').prop('selectedIndex', 0);
+                for (i = 0; i < newData.length; i++) {
+                    $('#UniName').append($('<option></option>').attr('value', newData[i]).text(newData[i]));
+                }
+                $('#UniName').append($('<option></option>').attr('value', "All").text("Other Courses..."));
             },
 
             failure: function (data) {
@@ -628,12 +629,57 @@
         });
     }
 
-    function Create() {
+    function getEditData() {
+
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetEditdata", "Course")',
+            dataType: "json",
+            data: {
+                cid: @ViewBag.ViewBagcid
+            },
+            success: function (data) {
+                var courseData = data;
+                var newData = courseData.data;
+
+                var dt = new Date(newData.cdateOfIntake);
+
+                var day = dt.getDate(),
+                    month = dt.getMonth(),
+                    year = dt.getFullYear(),
+                    hours = dt.getHours(),
+                    minutes = dt.getMinutes(),
+                    seconds = dt.getSeconds();
+
+                var date = day + '/' + (month + 1) + '/' + year;
+
+                $('#Cid').val(newData.cid);
+                $('#Cname').val(newData.cname);
+                $('#Cfaculty').val(newData.cfaculty);
+                $('#CdateOfIntake').val(date);
+                $('#Cyears').val(newData.cyears);
+                $('#Cfee').val(newData.cfee);
+                $('#UniName').val(newData.uniName);
+                $('#Ccategory').val(newData.ccategory);
+            },
+
+            failure: function (data) {
+                console.log("failure");
+            },
+
+            error: function (data) {
+                console.log("error");
+            }
+
+        });
+    }
+
+    function Update() {
 
         var viewModel = serializeFormJson($('#CourseForm').serializeArray())
         $.ajax({
             type: "POST",
-            url: '@Url.Action("Create", "Course")',
+            url: '@Url.Action("Edit", "Course")',
             dataType: 'json',
             ContentType: 'application/json; charset=utf-8',
             data:{
