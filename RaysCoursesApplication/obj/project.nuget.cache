@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0dHRoetJPHVtGXnxJXE2r3cwCbp8XwfH9WEJn+6dF+qtDirS8y1gMmn6TgyhU1GBMh+Apb94hF+OgNSTSPr37w==",
+  "dgSpecHash": "niwBFL2uIWbickJxmH0wCHDJ7/C+EbIB/DofePpWqQoeAOPVZw1Oa4w2LczBqJHBxok+zsuhB3Y7J68npjzQmA==",
   "success": true,
   "projectFilePath": "C:\\Users\\pasindu\\source\\repos\\RaysCourses\\RaysCoursesApplication\\RaysCoursesApplication.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\pasindu\\.nuget\\packages\\microsoft.aspnet.mvc\\5.2.7\\microsoft.aspnet.mvc.5.2.7.nupkg.sha512",
     "C:\\Users\\pasindu\\.nuget\\packages\\microsoft.aspnet.razor\\3.2.7\\microsoft.aspnet.razor.3.2.7.nupkg.sha512",
     "C:\\Users\\pasindu\\.nuget\\packages\\microsoft.aspnet.webpages\\3.2.7\\microsoft.aspnet.webpages.3.2.7.nupkg.sha512",
+    "C:\\Users\\pasindu\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.0.0\\microsoft.aspnetcore.authentication.jwtbearer.3.0.0.nupkg.sha512",
     "C:\\Users\\pasindu\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.1.10\\microsoft.aspnetcore.cryptography.internal.3.1.10.nupkg.sha512",
     "C:\\Users\\pasindu\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\3.1.10\\microsoft.aspnetcore.cryptography.keyderivation.3.1.10.nupkg.sha512",
     "C:\\Users\\pasindu\\.nuget\\packages\\microsoft.aspnetcore.diagnostics.entityframeworkcore\\3.1.10\\microsoft.aspnetcore.diagnostics.entityframeworkcore.3.1.10.nupkg.sha512",

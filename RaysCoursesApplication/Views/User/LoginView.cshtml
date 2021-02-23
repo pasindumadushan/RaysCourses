@@ -133,20 +133,7 @@
                 viewModel: viewModel
             },
             success: function (data) {
-                if (data.validate == 1)
-                {
-                    alert("Login Success!");
-                    var url = '@Url.Action("Index","Home")';
-                    window.location.href = url;
-                }
-                else if (data.validate == 2)
-                {
-                    alert("Wrong Password!");
-                }
-                else
-                {
-                    alert("Invalid User name!");
-                }
+                console.log(data.response);
             }
         });
     }

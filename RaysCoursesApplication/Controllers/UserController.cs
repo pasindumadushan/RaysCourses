@@ -69,37 +69,21 @@ namespace RaysCoursesApplication.Controllers
         public async Task<IActionResult> Login([FromForm] User viewModel)
         {
             user = new User();
+            user.Umail = viewModel.Umail;
+            user.Upassword = viewModel.Upassword;
+
+            IActionResult response = Unauthorized();
             HttpClient client = _api.Initial();
-            StringContent content = new StringContent(JsonConvert.SerializeObject(viewModel), Encoding.UTF8, "application/json");
+            StringContent content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
             HttpResponseMessage res = await client.PostAsync("api/Users/Login", content);
 
             if (res.IsSuccessStatusCode)
             {
-                var result = res.Content.ReadAsStringAsync().Result;
-                user = JsonConvert.DeserializeObject<User>(result);
-                if(user != null)
-                {
-                    if(user.Upassword == viewModel.Upassword)
-                    {
-                        
-                        return Json(new { validate = 1 });
-                    }
-                    else
-                    {
-                        return Json(new { validate = 2 });
-                    }
-                }
-                else
-                {
-                    return Json(new { validate = 3 });
-                }
-                
+                response = Content(res.Content.ReadAsStringAsync().Result);
+                System.Diagnostics.Debug.WriteLine("asdsdsaddddddd"+ res.Content.ReadAsStringAsync().Result);
             }
-            else
-            {
-                return Json(new { validate = 3 });
-            }
+            return response;
 
         }
     }

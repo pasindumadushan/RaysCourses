@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RaysCoursesWebAPI.Classes;
 using RaysCoursesWebAPI.Models;
 
 namespace RaysCoursesWebAPI.Controllers
@@ -86,11 +87,29 @@ namespace RaysCoursesWebAPI.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<User> Login(User user)
+        public async Task<ActionResult> Login(User user)
         {
-            var Resultuser = _context.User.Where(x => x.Umail == user.Umail ).FirstOrDefault();
+            
 
-            return Resultuser;
+            var Resultuser = _context.User.Where(x => x.Umail == user.Umail && x.Upassword == user.Upassword).FirstOrDefault();
+
+            if (Resultuser == null)
+            {
+                return Unauthorized();
+            }
+            else
+            {
+                var token = new JwtTokenBuilder()
+                               .AddSecurityKey(JwtSecurityKey.Create("fiversecretfiversecret "))
+                               .AddSubject("james bond")
+                               .AddIssuer("Fiver.Security.Bearer")
+                               .AddAudience("Fiver.Security.Bearer")
+                               .AddClaim("MembershipId", "111")
+                               .AddExpiry(1)
+                               .Build();
+
+                return Ok(token.Value);
+            }
         }
 
         // DELETE: api/Users/5

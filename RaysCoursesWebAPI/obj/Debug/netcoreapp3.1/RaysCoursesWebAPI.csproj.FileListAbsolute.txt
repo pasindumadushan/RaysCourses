@@ -425,3 +425,4 @@ C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesWebAPI\obj\Debug\netcoreapp
 C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesWebAPI\obj\Debug\netcoreapp3.1\RaysCoursesWebAPI.pdb
 C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesWebAPI\obj\Debug\netcoreapp3.1\RaysCoursesWebAPI.genruntimeconfig.cache
 C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesWebAPI\obj\Debug\netcoreapp3.1\RaysCoursesWebAPI.csprojAssemblyReference.cache
+C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesWebAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
