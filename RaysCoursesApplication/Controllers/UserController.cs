@@ -107,5 +107,11 @@ namespace RaysCoursesApplication.Controllers
             return data;
 
         }
+
+        public IActionResult logOut()
+        {
+            HttpContext.Session.Clear();
+            return Json(new {success = true });
+        }
     }
 }

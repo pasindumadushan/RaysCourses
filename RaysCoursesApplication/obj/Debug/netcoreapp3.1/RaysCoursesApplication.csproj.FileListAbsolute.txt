@@ -441,3 +441,4 @@ C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesApplication\bin\Debug\netco
 C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesApplication\obj\Debug\netcoreapp3.1\Razor\Views\Course\CreateView.cshtml.g.cs
 C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesApplication\obj\Debug\netcoreapp3.1\Razor\Views\Course\EditView.cshtml.g.cs
 C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesApplication\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\pasindu\source\repos\RaysCourses\RaysCoursesApplication\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Top.cshtml.g.cs
