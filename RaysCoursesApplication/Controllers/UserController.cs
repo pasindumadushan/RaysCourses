@@ -51,7 +51,6 @@ namespace RaysCoursesApplication.Controllers
             if (res.IsSuccessStatusCode)
             {
                 var result = res.Content.ReadAsStringAsync().Result;
-                //user = JsonConvert.DeserializeObject<List<User>>(result);
                 return Json(new { success = true });
             }
             else
@@ -85,6 +84,25 @@ namespace RaysCoursesApplication.Controllers
                 data = Content(res.Content.ReadAsStringAsync().Result);
                 HttpContext.Session.SetString("Access_Token", res.Content.ReadAsStringAsync().Result);
                 
+                res = await client.GetAsync("api/Users/GetUserFromMail/" + user.Umail);
+
+                if (res.IsSuccessStatusCode)
+                {
+                    var result = res.Content.ReadAsStringAsync().Result;
+                    var userList = JsonConvert.DeserializeObject<List<User>>(result);
+                    
+                    foreach(var i in userList)
+                    {
+                        if(i.Umail == user.Umail && i.Upassword == user.Upassword)
+                        {
+                            HttpContext.Session.SetString("UserId", i.Uid.ToString());
+                            HttpContext.Session.SetString("UserName", i.Uname);
+                            
+                        }
+                    }
+
+                }
+
             }
             return data;
 

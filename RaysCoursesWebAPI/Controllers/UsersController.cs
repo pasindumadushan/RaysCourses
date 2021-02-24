@@ -49,6 +49,19 @@ namespace RaysCoursesWebAPI.Controllers
             return user;
         }
 
+        [HttpGet("GetUserFromMail/{umail}")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUserFromMail(string umail)
+        {
+            var user = await _context.User.Where(x => x.Umail == umail).ToListAsync();
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
+
         // PUT: api/Users/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.

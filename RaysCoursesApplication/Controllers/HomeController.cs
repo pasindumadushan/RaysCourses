@@ -39,11 +39,8 @@ namespace RaysCoursesApplication.Controllers
         public async Task<IActionResult> GetTableData(string? category)
         {
             HttpClient client = _api.Initial();
+            client = _api.RequestHeader(client, HttpContext.Session.GetString("Access_Token"));
 
-            var contentType = new MediaTypeWithQualityHeaderValue("application/json");
-            client.DefaultRequestHeaders.Accept.Add(contentType);
-
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Access_Token"));
             System.Diagnostics.Debug.WriteLine("Access_Token home : " + HttpContext.Session.GetString("Access_Token"));
 
             courses = new List<Course>();
@@ -63,12 +60,11 @@ namespace RaysCoursesApplication.Controllers
 
                 foreach(var i in courses)
                 {
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Access_Token"));
+                    client = _api.RequestHeader(client, HttpContext.Session.GetString("Access_Token"));
                     HttpResponseMessage res2 = await client.GetAsync("api/Universities/" + i.UniRefId);
                     var result2 = res2.Content.ReadAsStringAsync().Result;
 
                     university = JsonConvert.DeserializeObject<University>(result2);
-
                     courseViewModels.Add ( new CourseViewModel{ Cid = i.Cid, UniId = i.UniRefId, UniName = university.UniName, Cname = i.Cname, CdateOfIntake = i.CdateOfIntake, Cyears = i.Cyears, Cfee = i.Cfee, UniImgPath = university.UniImgPath });
                 }
                 return Json(new { data = courseViewModels });
@@ -83,12 +79,9 @@ namespace RaysCoursesApplication.Controllers
             dropdownResult = new List<string>();
 
             HttpClient client = _api.Initial();
-            var contentType = new MediaTypeWithQualityHeaderValue("application/json");
-            client.DefaultRequestHeaders.Accept.Add(contentType);
+            client = _api.RequestHeader(client, HttpContext.Session.GetString("Access_Token"));
 
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Access_Token"));
             HttpResponseMessage res = await client.GetAsync("api/Courses");
-
 
             if (res.IsSuccessStatusCode)
             {
