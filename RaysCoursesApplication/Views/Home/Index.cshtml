@@ -276,9 +276,7 @@
         });
 
         $('#DT_load').on('click', '#Delete', function () {
-
-            var url = '@Url.Action("DeleteView", "Course")?cid=' + $(this).attr("data-id");
-            window.location.href = url;
+            deleteCourse($(this).attr("data-id"));
         });
 
         $("#LogOut").click(function () {
@@ -316,12 +314,12 @@
                                         </td>
 
                                         <td style='border: none;'>
-                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal${data}">
                                             Delete
                                         </button>
                                         </td></tr>
 
-                                        <div class='modal fade' id='exampleModal' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+                                        <div class='modal fade' id='exampleModal${data}' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>
                                         <div class='modal-dialog' role='document'>
                                         <div class='modal-content'>
                                         <div class='modal-header'>
@@ -382,6 +380,30 @@
         });
     }
 
+    function deleteCourse(cid) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Delete", "Course")',
+            data:
+            {
+                cid: +cid
+            },
+            dataType: "json",
+            success: function (data) {
+                var url = '@Url.Action("Index", "Home")';
+                window.location.href = url;
+            },
+
+            failure: function (data) {
+                console.log("failure");
+            },
+
+            error: function (data) {
+                console.log("error");
+            }
+
+        });
+    }
 
     function logOut() {
 

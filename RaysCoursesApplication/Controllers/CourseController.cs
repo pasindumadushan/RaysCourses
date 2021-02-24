@@ -110,7 +110,7 @@ namespace RaysCoursesApplication.Controllers
                 StringContent content = new StringContent(JsonConvert.SerializeObject(course), Encoding.UTF8, "application/json");
 
                 client = _api.RequestHeader(client, HttpContext.Session.GetString("Access_Token"));
-                res = await client.PutAsync("api/Courses/" +viewModel.Cid +"/", content);
+                res = await client.PutAsync("api/Courses/" + viewModel.Cid + "/", content);
 
                 if (res.IsSuccessStatusCode)
                 {
@@ -182,7 +182,7 @@ namespace RaysCoursesApplication.Controllers
             HttpClient client = _api.Initial();
             client = _api.RequestHeader(client, HttpContext.Session.GetString("Access_Token"));
 
-            HttpResponseMessage res = await client.GetAsync("api/Universities/University/" +viewModel.UniName);
+            HttpResponseMessage res = await client.GetAsync("api/Universities/University/" + viewModel.UniName);
 
             if (res.IsSuccessStatusCode)
             {
@@ -218,10 +218,24 @@ namespace RaysCoursesApplication.Controllers
                 return Json(new { data = false });
             }
         }
+        public async Task<IActionResult> Delete(int cid)
+        {
+            course = new Course();
 
-        
+            HttpClient client = _api.Initial();
+            client = _api.RequestHeader(client, HttpContext.Session.GetString("Access_Token"));
 
+            HttpResponseMessage res = await client.DeleteAsync("api/Courses/" + cid);
+
+            if (res.IsSuccessStatusCode)
+            {
+                var result = res.Content.ReadAsStringAsync().Result;
+                course = JsonConvert.DeserializeObject<Course>(result);
+
+                return Json(new { data = course });
+            }
+            return Json(new { data = false });
+        }
     }
-
 }
 

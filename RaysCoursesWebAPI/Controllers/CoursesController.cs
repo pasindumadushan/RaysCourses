@@ -94,6 +94,8 @@ namespace RaysCoursesWebAPI.Controllers
         public async Task<ActionResult<Course>> DeleteCourse(int id)
         {
             var course = await _context.Course.FindAsync(id);
+            System.Diagnostics.Debug.WriteLine("asdasd" + id);
+
             if (course == null)
             {
                 return NotFound();
