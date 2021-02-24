@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,6 +45,12 @@ namespace RaysCoursesApplication.Controllers
         public async Task<IActionResult> Register([FromForm] User viewModel)
         {
             HttpClient client = _api.Initial();
+
+            MD5 md5 = new MD5CryptoServiceProvider();
+            Byte[] originalBytes = ASCIIEncoding.Default.GetBytes(viewModel.Upassword);
+            Byte[] encodedBytes = md5.ComputeHash(originalBytes);
+            viewModel.Upassword = BitConverter.ToString(encodedBytes).Replace("-", "").ToLower();
+
             StringContent content = new StringContent(JsonConvert.SerializeObject(viewModel), Encoding.UTF8, "application/json");
 
             HttpResponseMessage res = await client.PostAsync("api/Users", content);
@@ -70,7 +77,11 @@ namespace RaysCoursesApplication.Controllers
         {
             user = new User();
             user.Umail = viewModel.Umail;
-            user.Upassword = viewModel.Upassword;
+
+            MD5 md5 = new MD5CryptoServiceProvider();
+            Byte[] originalBytes = ASCIIEncoding.Default.GetBytes(viewModel.Upassword);
+            Byte[] encodedBytes = md5.ComputeHash(originalBytes);
+            user.Upassword = BitConverter.ToString(encodedBytes).Replace("-", "").ToLower();
 
             IActionResult data = Unauthorized();
             HttpClient client = _api.Initial();
