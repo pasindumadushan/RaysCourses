@@ -127,13 +127,15 @@
         $.ajax({
             type: "POST",
             url: '@Url.Action("Login", "User")',
-            dataType: 'json',
+            dataType: 'text',
             ContentType: 'application/json; charset=utf-8',
             data: {
                 viewModel: viewModel
             },
             success: function (data) {
-                console.log(data.response);
+
+               var url = '@Url.Action("Index","Home")';
+                    window.location.href = url;
             }
         });
     }

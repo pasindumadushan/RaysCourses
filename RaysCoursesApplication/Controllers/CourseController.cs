@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RaysCoursesApplication.Helper;
 using RaysCoursesApplication.Models;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,6 +44,10 @@ namespace RaysCoursesApplication.Controllers
             courseViewModel = new CourseViewModel();
 
             HttpClient client = _api.Initial();
+            var contentType = new MediaTypeWithQualityHeaderValue("application/json");
+            client.DefaultRequestHeaders.Accept.Add(contentType);
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Access_Token"));
             HttpResponseMessage res = await client.GetAsync("api/Courses/" + cid);
 
             if (res.IsSuccessStatusCode)
@@ -49,6 +55,7 @@ namespace RaysCoursesApplication.Controllers
                 var result = res.Content.ReadAsStringAsync().Result;
                 course = JsonConvert.DeserializeObject<Course>(result);
 
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Access_Token"));
                 res = await client.GetAsync("api/Universities/" + course.UniRefId);
 
                 if (res.IsSuccessStatusCode)
@@ -83,7 +90,10 @@ namespace RaysCoursesApplication.Controllers
             university = new University();
             course = new Course();
             HttpClient client = _api.Initial();
+            var contentType = new MediaTypeWithQualityHeaderValue("application/json");
+            client.DefaultRequestHeaders.Accept.Add(contentType);
 
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Access_Token"));
             HttpResponseMessage res = await client.GetAsync("api/Universities/University/" + viewModel.UniName);
 
             if (res.IsSuccessStatusCode)
@@ -101,6 +111,7 @@ namespace RaysCoursesApplication.Controllers
                 course.Cfee = viewModel.Cfee;
 
                 StringContent content = new StringContent(JsonConvert.SerializeObject(course), Encoding.UTF8, "application/json");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Access_Token"));
                 res = await client.PutAsync("api/Courses/" +viewModel.Cid +"/", content);
 
                 if (res.IsSuccessStatusCode)
@@ -125,7 +136,11 @@ namespace RaysCoursesApplication.Controllers
             courseCategories = new List<CourseCategory>();
             dropdownResult = new List<string>();
 
-            HttpClient client = _api.Initial();
+            HttpClient client = _api.Initial(); 
+            var contentType = new MediaTypeWithQualityHeaderValue("application/json");
+            client.DefaultRequestHeaders.Accept.Add(contentType);
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Access_Token"));
             HttpResponseMessage res = await client.GetAsync("api/CourseCategories");
 
 
@@ -148,7 +163,11 @@ namespace RaysCoursesApplication.Controllers
             universities = new List<University>();
             dropdownResult = new List<string>();
 
-            HttpClient client = _api.Initial();
+            HttpClient client = _api.Initial(); 
+            var contentType = new MediaTypeWithQualityHeaderValue("application/json");
+            client.DefaultRequestHeaders.Accept.Add(contentType);
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Access_Token"));
             HttpResponseMessage res = await client.GetAsync("api/Universities");
 
 
@@ -171,7 +190,10 @@ namespace RaysCoursesApplication.Controllers
             university = new University();
             course = new Course();
             HttpClient client = _api.Initial();
+            var contentType = new MediaTypeWithQualityHeaderValue("application/json");
+            client.DefaultRequestHeaders.Accept.Add(contentType);
 
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Access_Token"));
             HttpResponseMessage res = await client.GetAsync("api/Universities/University/" +viewModel.UniName);
 
             if (res.IsSuccessStatusCode)
@@ -188,6 +210,8 @@ namespace RaysCoursesApplication.Controllers
                 course.Cfee = viewModel.Cfee;
 
                 StringContent content = new StringContent(JsonConvert.SerializeObject(course), Encoding.UTF8, "application/json");
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Access_Token"));
                 res = await client.PostAsync("api/Courses", content);
 
                 if (res.IsSuccessStatusCode)

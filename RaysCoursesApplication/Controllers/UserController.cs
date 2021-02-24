@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RaysCoursesApplication.Helper;
 using RaysCoursesWebAPI.Models;
@@ -72,18 +73,20 @@ namespace RaysCoursesApplication.Controllers
             user.Umail = viewModel.Umail;
             user.Upassword = viewModel.Upassword;
 
-            IActionResult response = Unauthorized();
+            IActionResult data = Unauthorized();
             HttpClient client = _api.Initial();
             StringContent content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
             HttpResponseMessage res = await client.PostAsync("api/Users/Login", content);
+            
 
             if (res.IsSuccessStatusCode)
             {
-                response = Content(res.Content.ReadAsStringAsync().Result);
-                System.Diagnostics.Debug.WriteLine("asdsdsaddddddd"+ res.Content.ReadAsStringAsync().Result);
+                data = Content(res.Content.ReadAsStringAsync().Result);
+                HttpContext.Session.SetString("Access_Token", res.Content.ReadAsStringAsync().Result);
+                
             }
-            return response;
+            return data;
 
         }
     }

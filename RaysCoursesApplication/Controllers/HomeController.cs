@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RaysCoursesApplication.Helper;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace RaysCoursesApplication.Controllers
@@ -36,11 +38,18 @@ namespace RaysCoursesApplication.Controllers
 
         public async Task<IActionResult> GetTableData(string? category)
         {
+            HttpClient client = _api.Initial();
+
+            var contentType = new MediaTypeWithQualityHeaderValue("application/json");
+            client.DefaultRequestHeaders.Accept.Add(contentType);
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Access_Token"));
+            System.Diagnostics.Debug.WriteLine("Access_Token home : " + HttpContext.Session.GetString("Access_Token"));
+
             courses = new List<Course>();
             courseViewModels = new List<CourseViewModel>();
 
-            HttpClient client = _api.Initial();
-            HttpResponseMessage res1 = await client.GetAsync("api/Courses");
+            HttpResponseMessage res1 = await client.GetAsync("/api/Courses");
 
             if (res1.IsSuccessStatusCode)
             {
@@ -54,6 +63,7 @@ namespace RaysCoursesApplication.Controllers
 
                 foreach(var i in courses)
                 {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Access_Token"));
                     HttpResponseMessage res2 = await client.GetAsync("api/Universities/" + i.UniRefId);
                     var result2 = res2.Content.ReadAsStringAsync().Result;
 
@@ -73,6 +83,10 @@ namespace RaysCoursesApplication.Controllers
             dropdownResult = new List<string>();
 
             HttpClient client = _api.Initial();
+            var contentType = new MediaTypeWithQualityHeaderValue("application/json");
+            client.DefaultRequestHeaders.Accept.Add(contentType);
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Access_Token"));
             HttpResponseMessage res = await client.GetAsync("api/Courses");
 
 

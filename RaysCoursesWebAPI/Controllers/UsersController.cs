@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RaysCoursesWebAPI.Classes;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using RaysCoursesWebAPI.Models;
 
 namespace RaysCoursesWebAPI.Controllers
@@ -16,8 +21,10 @@ namespace RaysCoursesWebAPI.Controllers
     {
         private readonly RaysCoursesContext _context;
 
-        public UsersController(RaysCoursesContext context)
+        public IConfiguration _configuration;
+        public UsersController(IConfiguration config, RaysCoursesContext context)
         {
+            _configuration = config;
             _context = context;
         }
 
@@ -95,20 +102,25 @@ namespace RaysCoursesWebAPI.Controllers
 
             if (Resultuser == null)
             {
-                return Unauthorized();
+                return BadRequest();
             }
             else
             {
-                var token = new JwtTokenBuilder()
-                               .AddSecurityKey(JwtSecurityKey.Create("fiversecretfiversecret "))
-                               .AddSubject("james bond")
-                               .AddIssuer("Fiver.Security.Bearer")
-                               .AddAudience("Fiver.Security.Bearer")
-                               .AddClaim("MembershipId", "111")
-                               .AddExpiry(1)
-                               .Build();
+                var claims = new []{
+                    new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                    new Claim("Id", Resultuser.Uid.ToString()),
+                    new Claim("UserName", Resultuser.Uname),
+                    new Claim("UserEmail", Resultuser.Umail)
+                   };
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
 
-                return Ok(token.Value);
+                var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                var token = new JwtSecurityToken(_configuration["Jwt:Issuer"], _configuration["Jwt:Audience"], claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: signIn);
+
+                return Ok(new JwtSecurityTokenHandler().WriteToken(token));
             }
         }
 

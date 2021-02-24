@@ -13,6 +13,7 @@ using RaysCoursesWebAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace RaysCoursesWebAPI
@@ -33,19 +34,21 @@ namespace RaysCoursesWebAPI
             services.AddControllers();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             IdentityModelEventSource.ShowPII = true;
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-              .AddJwtBearer(options => {
-                  options.TokenValidationParameters =
-                       new TokenValidationParameters
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => 
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                       options.TokenValidationParameters = new TokenValidationParameters
                        {
+                           ClockSkew = TimeSpan.Zero,
                            ValidateIssuer = true,
                            ValidateAudience = true,
-                           ValidateLifetime = true,
-                           ValidateIssuerSigningKey = true,
+                           ValidAudience = Configuration["Jwt:Audience"],
+                           ValidIssuer = Configuration["Jwt:Issuer"],
+                           
+                           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
 
-                           ValidIssuer = "Fiver.Security.Bearer",
-                           ValidAudience = "Fiver.Security.Bearer",
-                           IssuerSigningKey = JwtSecurityKey.Create("fiversecret ")
+
                        };
               });
         }
@@ -63,6 +66,8 @@ namespace RaysCoursesWebAPI
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
