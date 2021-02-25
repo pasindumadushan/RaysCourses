@@ -15,6 +15,7 @@ namespace RaysCoursesApplication.Controllers
     public class UniversityController : Controller
     {
         HelperApi _api = new HelperApi();
+        List<Course> courses;
         List<University> universities;
         University university;
         public IActionResult Index()
@@ -118,18 +119,35 @@ namespace RaysCoursesApplication.Controllers
         public async Task<IActionResult> Delete(int uniId)
         {
             university = new University();
+            courses = new List<Course>();
 
             HttpClient client = _api.Initial();
             client = _api.RequestHeader(client, HttpContext.Session.GetString("Access_Token"));
-
-            HttpResponseMessage res = await client.DeleteAsync("api/Universities/" + uniId);
+            HttpResponseMessage res = await client.GetAsync("/api/Courses");
 
             if (res.IsSuccessStatusCode)
             {
-                var result = res.Content.ReadAsStringAsync().Result;
-                university = JsonConvert.DeserializeObject<University>(result);
+                var result1 = res.Content.ReadAsStringAsync().Result;
+                courses = JsonConvert.DeserializeObject<List<Course>>(result1);
 
-                return Json(new { data = university });
+                var relations = courses.Where(x => x.UniRefId == uniId).FirstOrDefault();
+
+                if(relations == null)
+                {
+                    client = _api.RequestHeader(client, HttpContext.Session.GetString("Access_Token"));
+                    res = await client.DeleteAsync("api/Universities/" + uniId);
+
+                    if (res.IsSuccessStatusCode)
+                    {
+                        var result = res.Content.ReadAsStringAsync().Result;
+                        university = JsonConvert.DeserializeObject<University>(result);
+                    }
+                    return Json(new { data = university });
+                }
+                else
+                {
+                    return Json(new { data = false });
+                }
             }
             return Json(new { data = false });
         }

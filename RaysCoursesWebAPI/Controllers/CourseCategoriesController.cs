@@ -44,8 +44,6 @@ namespace RaysCoursesWebAPI.Controllers
         }
 
         // PUT: api/CourseCategories/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCourseCategory(int id, CourseCategory courseCategory)
         {
@@ -76,8 +74,6 @@ namespace RaysCoursesWebAPI.Controllers
         }
 
         // POST: api/CourseCategories
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<CourseCategory>> PostCourseCategory(CourseCategory courseCategory)
         {

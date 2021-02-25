@@ -46,10 +46,16 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="@Url.Action("Index","Home")">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Home</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="@Url.Action("Index","University")">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>University</span>
                 </a>
             </li>
 
@@ -109,31 +115,9 @@
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle"
-                                     src="img/undraw_profile.svg">
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="@Url.Action("LoginView","User")">
-                                    <i class="fa fa-sign-in fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Sign In
-                                </a>
-                                <a class="dropdown-item" href="@Url.Action("RegisterView","User")">
-                                    <i class="fa fa-user-plus fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Sign Up
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div>
-                        </li>
+                        @{
+                            Html.RenderPartial("_UserDropDown");
+                        }
 
                     </ul>
 
@@ -339,8 +323,15 @@
             },
             dataType: "json",
             success: function (data) {
-                var url = '@Url.Action("Index","University")';
-                window.location.href = url;
+
+                if (data.data == false) {
+                    alert("You cant delete that record! Because there are several courses exist for that University.");
+                }
+                else {
+                    var url = '@Url.Action("Index","University")';
+                    window.location.href = url;
+                }
+
             },
 
             failure: function (data) {

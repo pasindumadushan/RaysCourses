@@ -77,22 +77,20 @@ namespace RaysCoursesApplication.Controllers
         {
             user = new User();
             user.Umail = viewModel.Umail;
+            var success = false;
 
             MD5 md5 = new MD5CryptoServiceProvider();
             Byte[] originalBytes = ASCIIEncoding.Default.GetBytes(viewModel.Upassword);
             Byte[] encodedBytes = md5.ComputeHash(originalBytes);
             user.Upassword = BitConverter.ToString(encodedBytes).Replace("-", "").ToLower();
 
-            IActionResult data = Unauthorized();
             HttpClient client = _api.Initial();
             StringContent content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
             HttpResponseMessage res = await client.PostAsync("api/Users/Login", content);
-            
 
             if (res.IsSuccessStatusCode)
             {
-                data = Content(res.Content.ReadAsStringAsync().Result);
                 HttpContext.Session.SetString("Access_Token", res.Content.ReadAsStringAsync().Result);
                 
                 res = await client.GetAsync("api/Users/GetUserFromMail/" + user.Umail);
@@ -104,7 +102,7 @@ namespace RaysCoursesApplication.Controllers
                     
                     foreach(var i in userList)
                     {
-                        if(i.Umail == user.Umail && i.Upassword == user.Upassword)
+                        if(i.Umail.ToUpper() == user.Umail.ToUpper() && i.Upassword == user.Upassword)
                         {
                             HttpContext.Session.SetString("UserId", i.Uid.ToString());
                             HttpContext.Session.SetString("UserName", i.Uname);
@@ -113,9 +111,12 @@ namespace RaysCoursesApplication.Controllers
                     }
 
                 }
-
+                return Json(new { success = true });
             }
-            return data;
+            else
+            {
+                return Json(new { success = false });
+            }
 
         }
 

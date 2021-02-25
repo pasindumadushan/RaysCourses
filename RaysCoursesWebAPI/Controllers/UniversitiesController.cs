@@ -44,8 +44,6 @@ namespace RaysCoursesWebAPI.Controllers
         }
 
         // PUT: api/Universities/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUniversity(int id, University university)
         {
@@ -76,8 +74,6 @@ namespace RaysCoursesWebAPI.Controllers
         }
 
         // POST: api/Universities
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<University>> PostUniversity(University university)
         {
@@ -90,7 +86,7 @@ namespace RaysCoursesWebAPI.Controllers
         [HttpGet("University/{uniName}")]
         public async Task<University> University(string uniName)
         {
-            var Resultuniversity = _context.University.Where(x => x.UniName == uniName).FirstOrDefault();
+            var Resultuniversity = _context.University.Where(x => x.UniName.ToUpper() == uniName.ToUpper()).FirstOrDefault();
 
             return Resultuniversity;
         }

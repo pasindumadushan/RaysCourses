@@ -124,15 +124,22 @@
         $.ajax({
             type: "POST",
             url: '@Url.Action("Login", "User")',
-            dataType: 'text',
+            dataType: 'json',
             ContentType: 'application/json; charset=utf-8',
             data: {
                 viewModel: viewModel
             },
             success: function (data) {
 
-               var url = '@Url.Action("Index","Home")';
+                console.log(data.success);
+                if (data.success == true) {
+                    var url = '@Url.Action("Index","Home")';
                     window.location.href = url;
+                }
+                else {
+                    alert("Login fail, wrong user mail or password!")
+                }
+
             }
         });
     }

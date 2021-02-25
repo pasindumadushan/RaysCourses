@@ -52,7 +52,7 @@ namespace RaysCoursesWebAPI.Controllers
         [HttpGet("GetUserFromMail/{umail}")]
         public async Task<ActionResult<IEnumerable<User>>> GetUserFromMail(string umail)
         {
-            var user = await _context.User.Where(x => x.Umail == umail).ToListAsync();
+            var user = await _context.User.Where(x => x.Umail.ToUpper() == umail.ToUpper()).ToListAsync();
 
             if (user == null)
             {
@@ -63,8 +63,6 @@ namespace RaysCoursesWebAPI.Controllers
         }
 
         // PUT: api/Users/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
@@ -95,8 +93,6 @@ namespace RaysCoursesWebAPI.Controllers
         }
 
         // POST: api/Users
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
@@ -111,7 +107,7 @@ namespace RaysCoursesWebAPI.Controllers
         {
             
 
-            var Resultuser = _context.User.Where(x => x.Umail == user.Umail && x.Upassword == user.Upassword).FirstOrDefault();
+            var Resultuser = _context.User.Where(x => x.Umail.ToUpper() == user.Umail.ToUpper() && x.Upassword == user.Upassword).FirstOrDefault();
 
             if (Resultuser == null)
             {
