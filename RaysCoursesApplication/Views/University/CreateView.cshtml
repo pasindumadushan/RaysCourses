@@ -86,17 +86,17 @@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-search fa-fw"></i>
                             </a>
 
-                            <div class="topbar-divider d-none d-sm-block"></div>
+                        </li>
 
-                            <!-- Nav Item - User Information -->
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -128,56 +128,35 @@
                 </nav>
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
-
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Edit Course</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Add Courses</h1>
                     <p class="mb-4">
-                        Edit Course related to several fields alone with university details.
+                        Add List of universities With the information
                     </p>
-                    <form Id="CourseForm" novalidate>
+                    <form Id="UniversityForm" novalidate>
                         <div class="row">
                             <div class="col-lg-6">
 
-                                <input type="hidden" class="form-control form-control-user" id="Cid" name="Cid">
-
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="Cname" name="Cname"
-                                           placeholder="Course Name">
+                                    <input type="text" class="form-control form-control-user" id="UniName" name="UniName"
+                                           placeholder="University Name">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="Cfaculty" name="Cfaculty"
-                                           placeholder="Faculty">
+                                    <input type="text" class="form-control form-control-user" id="UniAddr" name="UniAddr"
+                                           placeholder="Address">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="CdateOfIntake" name="CdateOfIntake"
-                                           placeholder="Date Of Intake (DD/MM/YYYY)">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="Cyears" name="Cyears"
-                                           placeholder="Number of Years">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="Cfee" name="Cfee"
-                                           placeholder="Fee">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <select class="form-control form-control-user" id="UniName" name="UniName" placeholder="Selec University...">
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <select class="form-control form-control-user" id="Ccategory" name="Ccategory" placeholder="Selec Category...">
-                                    </select>
+                                    <input type="text" class="form-control form-control-user" id="UniPnum" name="UniPnum"
+                                           placeholder="Phone number">
                                 </div>
 
                             </div>
 
                         </div>
                         <div class="form-group">
-                            <input type="submit" value="Update Course" class="btn btn-primary btn-user btn-block" />
+                            <input type="submit" value="Add University" class="btn btn-primary btn-user btn-block" />
                         </div>
                     </form>
 
@@ -237,18 +216,14 @@
 <script src="~/Bootstrap Design/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="~/Bootstrap Design/js/demo/datatables-demo.js"></script>
 <script>
-    $(document).ready(function ()
-    {
-        getEditData();
-        getCourseCategories();
-        getUniversityNamesCategories();
-        validateEdit();
+    $(document).ready(function () {
         $("#LogOut").click(function () {
             logOut();
         });
+        validateCreate();
     });
 
-    function validateEdit() {
+    function validateCreate() {
         $(function () {
             jQuery.validator.addMethod("noSpace", function (value, element) {
                 return value.indexOf(" ") < 0 && value != "";
@@ -261,7 +236,7 @@
             jQuery.validator.addMethod("exactlength", function (value, element, param) {
                 return this.optional(element) || value.length == param;
             }, $.validator.format("Please enter exactly {0} characters."));
-            $("#CourseForm").validate({
+            $("#UniversityForm").validate({
 
                 errorPlacement: function (error, element) {
                     var placement = $(element).data('error');
@@ -272,185 +247,53 @@
                     }
                 },
                 rules: {
-                    Cname: {
-                        required: true
-                    },
-                    Cfaculty: {
-                        required: true
-                    },
-                    CdateOfIntake: {
-                        required: true,
-                        checkDate: true
-                    },
-                    Cyears: {
-                        required: true
-                    },
                     UniName: {
                         required: true
                     },
-                    Cfee: {
-                        required: true,
-                        number:true
-                    },
-                    Ccategory: {
+                    UniAddr: {
                         required: true
+                    },
+                    UniPnum: {
+                        required: true,
+                        number: true
                     }
                 },
                 messages: {
-                    Cname: {
-                        required: "Please fill this field!"
-                    },
-                    Cfaculty: {
-                        required: "Please fill this field!"
-                    },
-                    CdateOfIntake: {
-                        required: "Please fill this field!",
-                        checkDate: "Invalid date!"
-                    },
-                    Cyears: {
-                        required: "Please fill this field!"
-                    },
                     UniName: {
                         required: "Please fill this field!"
                     },
-                    Cfee: {
-                        required: "Please fill this field!",
-                        number: "Invalid fee!"
+                    UniAddr: {
+                        required: "Please fill this field!"
                     },
-                    Ccategory: {
+                    UniPnum: {
                         required: "Please fill this field!",
+                        number: "Invalid Number!"
                     }
                 },
                 submitHandler: function (form) {
-                    Update();
+                    Create();
                 }
 
             });
         });
     }
 
-    function getCourseCategories() {
+    function Create() {
 
-        $.ajax({
-            type: "GET",
-            url: '@Url.Action("GetCategoriesDropdown", "Course")',
-            dataType: "json",
-            success: function (data) {
-                console.log(data);
-                var userData = data;
-                var newData = userData.data;
-
-                $('#Ccategory').empty();
-                $('#Ccategory').append('<option selected="true" disabled>Choose course category...</option>');
-                $('#Ccategory').prop('selectedIndex', 0);
-                for (i = 0; i < newData.length; i++) {
-                    $('#Ccategory').append($('<option></option>').attr('value', newData[i]).text(newData[i]));
-                }
-                $('#Ccategory').append($('<option></option>').attr('value', "All").text("Other Courses..."));
-            },
-
-            failure: function (data) {
-                console.log("failure");
-            },
-
-            error: function (data) {
-                console.log("error");
-            }
-
-        });
-    }
-
-    function getUniversityNamesCategories() {
-
-        $.ajax({
-            type: "GET",
-            url: '@Url.Action("GetUniversityDropdown", "Course")',
-            dataType: "json",
-            success: function (data) {
-                var userData = data;
-                var newData = userData.data;
-
-                $('#UniName').empty();
-                $('#UniName').append('<option selected="true" disabled>Choose University/Institute...</option>');
-                $('#UniName').prop('selectedIndex', 0);
-                for (i = 0; i < newData.length; i++) {
-                    $('#UniName').append($('<option></option>').attr('value', newData[i]).text(newData[i]));
-                }
-                $('#UniName').append($('<option></option>').attr('value', "All").text("Other Courses..."));
-            },
-
-            failure: function (data) {
-                console.log("failure");
-            },
-
-            error: function (data) {
-                console.log("error");
-            }
-
-        });
-    }
-
-    function getEditData() {
-
-        $.ajax({
-            type: "GET",
-            url: '@Url.Action("GetEditdata", "Course")',
-            dataType: "json",
-            data: {
-                cid: @ViewBag.ViewBagcid
-            },
-            success: function (data) {
-                var courseData = data;
-                var newData = courseData.data;
-
-                var dt = new Date(newData.cdateOfIntake);
-
-                var day = dt.getDate(),
-                    month = dt.getMonth(),
-                    year = dt.getFullYear(),
-                    hours = dt.getHours(),
-                    minutes = dt.getMinutes(),
-                    seconds = dt.getSeconds();
-
-                var date = day + '/' + (month + 1) + '/' + year;
-
-                $('#Cid').val(newData.cid);
-                $('#Cname').val(newData.cname);
-                $('#Cfaculty').val(newData.cfaculty);
-                $('#CdateOfIntake').val(date);
-                $('#Cyears').val(newData.cyears);
-                $('#Cfee').val(newData.cfee);
-                $('#UniName').val(newData.uniName);
-                $('#Ccategory').val(newData.ccategory);
-            },
-
-            failure: function (data) {
-                console.log("failure");
-            },
-
-            error: function (data) {
-                console.log("error");
-            }
-
-        });
-    }
-
-    function Update() {
-
-        var viewModel = serializeFormJson($('#CourseForm').serializeArray())
+        var university = serializeFormJson($('#UniversityForm').serializeArray())
         $.ajax({
             type: "POST",
-            url: '@Url.Action("Edit", "Course")',
+            url: '@Url.Action("Create", "University")',
             dataType: 'json',
             ContentType: 'application/json; charset=utf-8',
             data:{
-                viewModel: viewModel
+                university: university
             },
             success: function (data) {
 
                 if (data.success == true)
                 {
-                    var url = '@Url.Action("Index","Home")';
+                    var url = '@Url.Action("Index","University")';
                     window.location.href = url;
                 }
                 else
@@ -462,21 +305,6 @@
         });
     }
 
-    function serializeFormJson(formArray) {
-        var returnArray = {};
-        for (var i = 0; i < formArray.length; i++) {
-            returnArray[formArray[i]['name']] = formArray[i]['value'];
-        }
-        return returnArray;
-    }
-
-
-    function checkDate(s) {
-        var bits = s.split('/');
-        var d = new Date(bits[2] + '/' + bits[1] + '/' + bits[0]);
-        return !!(d && (d.getMonth() + 1) == bits[1] && d.getDate() == Number(bits[0]));
-    }
-
     function logOut() {
 
         $.ajax({
@@ -486,7 +314,7 @@
             success: function (data) {
 
                 if (data.success = true) {
-                    var url = '@Url.Action("LoginView", "User")?cid=' + $(this).attr("data-id");
+                    var url = '@Url.Action("LoginView", "User")';
                     window.location.href = url;
                 }
 
@@ -502,5 +330,12 @@
 
         });
     }
-</script>
 
+    function serializeFormJson(formArray) {
+        var returnArray = {};
+        for (var i = 0; i < formArray.length; i++) {
+            returnArray[formArray[i]['name']] = formArray[i]['value'];
+        }
+        return returnArray;
+    }
+</script>
