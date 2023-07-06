@@ -9170,19 +9170,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\pasindu\\.nuget\\packages\\": {}
+    "C:\\Users\\pasindu.bandar\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pasindu\\source\\repos\\RaysCourses\\RaysCoursesApplication\\RaysCoursesApplication.csproj",
+      "projectUniqueName": "C:\\Users\\pasindu.bandar\\source\\repos\\RaysCourses\\RaysCoursesApplication\\RaysCoursesApplication.csproj",
       "projectName": "RaysCoursesApplication",
-      "projectPath": "C:\\Users\\pasindu\\source\\repos\\RaysCourses\\RaysCoursesApplication\\RaysCoursesApplication.csproj",
-      "packagesPath": "C:\\Users\\pasindu\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pasindu\\source\\repos\\RaysCourses\\RaysCoursesApplication\\obj\\",
+      "projectPath": "C:\\Users\\pasindu.bandar\\source\\repos\\RaysCourses\\RaysCoursesApplication\\RaysCoursesApplication.csproj",
+      "packagesPath": "C:\\Users\\pasindu.bandar\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\pasindu.bandar\\source\\repos\\RaysCourses\\RaysCoursesApplication\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\pasindu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\pasindu.bandar\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -9271,7 +9271,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.411\\RuntimeIdentifierGraph.json"
       }
     }
   },

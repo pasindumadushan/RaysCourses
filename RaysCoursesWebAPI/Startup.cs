@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using RaysCoursesWebAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -34,23 +35,62 @@ namespace RaysCoursesWebAPI
             services.AddControllers();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             IdentityModelEventSource.ShowPII = true;
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
-                       options.TokenValidationParameters = new TokenValidationParameters
-                       {
-                           ClockSkew = TimeSpan.Zero,
-                           ValidateIssuer = true,
-                           ValidateAudience = true,
-                           ValidAudience = Configuration["Jwt:Audience"],
-                           ValidIssuer = Configuration["Jwt:Issuer"],
-                           
-                           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    ClockSkew = TimeSpan.Zero,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidAudience = Configuration["Jwt:Audience"],
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
 
 
-                       };
-              });
+                };
+            });
+            services.AddSwaggerGen(gen =>
+            {
+                gen.SwaggerDoc("v1.0", new OpenApiInfo
+                {
+                    Title = "RaysCoursesWebAPI",
+                    Version = "v1.0"
+                });
+                gen.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Scheme = "",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer @#$FDS#$@GGREHRH\"",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                gen.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
+
+            });
+
+            // /swagger/v1.0/swagger.json
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,6 +110,13 @@ namespace RaysCoursesWebAPI
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(ui =>
+            {
+                ui.SwaggerEndpoint("/swagger/v1.0/swagger.json", "RaysCoursesWebAPI Endpoint");
+            });
 
             app.UseEndpoints(endpoints =>
             {
